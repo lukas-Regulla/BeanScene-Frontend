@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../api/api";
 import { CartContext } from "../context/CartContext";
 
@@ -28,7 +29,8 @@ export default function CartScreen({ navigation }) {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.safe}>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       {/* Back Button */}
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.back}>← Back</Text>
@@ -63,11 +65,13 @@ export default function CartScreen({ navigation }) {
         </>
       )}
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#faf4ef", padding: 15 },
+  safe: { flex: 1, backgroundColor: "#faf4ef" },
+  container: { padding: 15 },
 
   back: { fontSize: 18, color: "#4e342e", marginBottom: 10 },
 

@@ -1,30 +1,33 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../api/api";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, setLoggedIn}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const login = async () => {
-    try {
-      const res = await api.post("/auth/login", { email, password });
+const login = async () => {
+  try {
+    const res = await api.post("/users/login", { email, password });
 
-      if (res.data?.success) {
-        // TODO: Store token (later: AsyncStorage)
-        navigation.navigate("Home");
-      } else {
-        setErrorMsg("Invalid login");
-      }
-    } catch (err) {
-        console.log("LOGIN ERROR:", err.response?.data || err.message);
-      setErrorMsg("Invalid email or password");
+    if (res.data.token) {
+      await AsyncStorage.setItem("token", res.data.token);
+      await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
+
+      setLoggedIn(true);      // ← THIS IS WHAT WAS MISSING
+      navigation.replace("Home");
     }
-    
-  };
+  } catch (err) {
+    setErrorMsg("Invalid email or password");
+  }
+};
+
 
   return (
+    <SafeAreaView style={styles.safeArea}>
     <View style={styles.container}>
 
       <Text style={styles.title}>BeanScene</Text>
@@ -59,12 +62,17 @@ export default function LoginScreen({ navigation }) {
       </TouchableOpacity>
 
     </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+  flex: 1,
+  backgroundColor: "#faf4ef",
+},
+
   container: {
-    flex: 1,
     backgroundColor: "#faf4ef",
     justifyContent: "center",
     padding: 25,

@@ -1,6 +1,7 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
-import { API_URL } from "../api/api";
 import { useContext } from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { API_URL } from "../api/api";
 import { CartContext } from "../context/CartContext";
 
 export default function DishDetailsScreen({ route, navigation }) {
@@ -9,7 +10,8 @@ export default function DishDetailsScreen({ route, navigation }) {
   const { dish } = route.params;
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.safe}>
+    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
       
       {/* Back Button */}
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -60,12 +62,13 @@ export default function DishDetailsScreen({ route, navigation }) {
         <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: "#faf4ef" },
   container: {
-    flex: 1,
     padding: 15,
     backgroundColor: "#faf4ef",
   },

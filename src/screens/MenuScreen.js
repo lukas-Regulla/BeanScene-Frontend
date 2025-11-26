@@ -1,5 +1,14 @@
-import { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+// ...existing code...
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { api, API_URL } from "../api/api";
 
 export default function MenuScreen({ route, navigation }) {
@@ -8,52 +17,53 @@ export default function MenuScreen({ route, navigation }) {
 
   useEffect(() => {
     api.get("/dishes")
-      .then(res => {
-        const filtered = res.data.filter(dish => dish.category === category);
+      .then((res) => {
+        const filtered = res.data.filter((dish) => dish.category === category);
         setDishes(filtered);
       })
-      .catch(err => console.log("Error loading dishes:", err));
-  }, []);
+      .catch((err) => console.log("Error loading dishes:", err));
+  }, [category]);
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      key={item.id}
+      style={styles.card}
+      onPress={() => navigation.navigate("DishDetails", { dish: item })}
+    >
+      <Image source={{ uri: `${API_URL}/static/${item.file}` }} style={styles.image} />
+      <View style={styles.info}>
+        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.price}>${item.price}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
-    <ScrollView style={styles.container}>
-
-      {/* BACK BUTTON */}
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={{ fontSize: 18, color: "#4e342e", marginBottom: 15 }}>
-          ← Back
-        </Text>
-      </TouchableOpacity>
-
-      {/* HEADER */}
-      <Text style={styles.header}>
-        {category.toUpperCase()} MENU
-      </Text>
-
-      {/* DISH LIST */}
-      {dishes.map((dish) => (
-        <TouchableOpacity
-          key={dish.id}
-          style={styles.card}
-          onPress={() => navigation.navigate("DishDetails", { dish })}
-        >
-          <Image
-            source={{ uri: `${API_URL}/static/${dish.file}` }}
-            style={styles.image}
-          />
-          <View style={styles.info}>
-            <Text style={styles.title}>{dish.name}</Text>
-            <Text style={styles.price}>${dish.price}</Text>
+    <SafeAreaView style={styles.safe}>
+      <FlatList
+        data={dishes}
+        renderItem={renderItem}
+        keyExtractor={(i) => String(i.id)}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.back}>← Back</Text>
+            </TouchableOpacity>
+            <Text style={styles.header}>{category.toUpperCase()} MENU</Text>
           </View>
-        </TouchableOpacity>
-      ))}
-
-    </ScrollView>
+        }
+      />
+    </SafeAreaView>
   );
 }
+// ...existing code...
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 15, backgroundColor: "#faf4ef" },
+  safe: { backgroundColor: "#faf4ef" },
+  listContent: { padding: 15 },
+  back: { fontSize: 18, color: "#4e342e", marginBottom: 15 },
   header: {
     fontSize: 32,
     fontWeight: "bold",

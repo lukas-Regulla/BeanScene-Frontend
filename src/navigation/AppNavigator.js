@@ -1,33 +1,61 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useEffect, useState } from "react";
 
-import LoginScreen from "../screens/LoginScreen";
-import HomeScreen from "../screens/HomeScreen";
-import CategoriesScreen from "../screens/CategoriesScreen";
-import MenuScreen from "../screens/MenuScreen";
 import CartScreen from "../screens/CartScreen";
-import RegisterScreen from "../screens/RegisterScreen";
 import DishDetailsScreen from "../screens/DishDetailsScreen";
 import FullMenuScreen from "../screens/FullMenuScreen";
+import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/LoginScreen";
+import MenuScreen from "../screens/MenuScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import CategoriesScreen from "../screens/CategoriesScreen";
+import ViewAllOrdersScreen from "../screens/ViewAllOrdersScreen";
 
-
-
-
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 export default function AppNavigator() {
+  const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  // Runs once on startup
+  useEffect(() => {
+    const check = async () => {
+      const token = await AsyncStorage.getItem("token");
+      setLoggedIn(!!token);
+      setLoading(false);
+    };
+    check();
+  }, []);
+
+  if (loading) return null;
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Categories" component={CategoriesScreen} />
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    {!loggedIn ? (
+      <>
+        <Stack.Screen name="Login">
+          {props => <LoginScreen {...props} setLoggedIn={setLoggedIn} />}
+        </Stack.Screen>
+
+        <Stack.Screen name="Register">
+          {props => <RegisterScreen {...props} />}
+        </Stack.Screen>
+      </>
+    ) : (
+      <>
+        <Stack.Screen name="Home">
+          {props => <HomeScreen {...props} />}
+        </Stack.Screen>
+
         <Stack.Screen name="Menu" component={MenuScreen} />
-        <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="DishDetails" component={DishDetailsScreen} />
         <Stack.Screen name="FullMenu" component={FullMenuScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+        <Stack.Screen name="DishDetails" component={DishDetailsScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="Categories" component={CategoriesScreen} />
+        <Stack.Screen name="ViewAllOrders" component={ViewAllOrdersScreen} />
+      </>
+    )}
+  </Stack.Navigator>
+);
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { api, API_URL } from "../api/api";
 
 export default function FullMenuScreen({ navigation }) {
@@ -21,7 +22,12 @@ export default function FullMenuScreen({ navigation }) {
   }));
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.safe}>
+    <ScrollView 
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
 
       {/* Back Button */}
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -62,11 +68,13 @@ export default function FullMenuScreen({ navigation }) {
       ))}
 
     </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 15, backgroundColor: "#faf4ef" },
+  safe: { flex: 1, backgroundColor: "#faf4ef" },
+  container: { padding: 15, paddingBottom: 40 },
 
   back: {
     fontSize: 18,

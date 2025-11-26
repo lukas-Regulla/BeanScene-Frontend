@@ -1,8 +1,27 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet,ScrollView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 export default function HomeScreen({ navigation }) {
+
+  // LOGOUT FUNCTION
+  const logout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("user");
+    navigation.replace("Login");
+  };
+
   return (
+    <SafeAreaView style={styles.safe}>
+    <ScrollView>
     <View style={styles.container}>
+
+      {/* Logout button */}
+      <TouchableOpacity style={styles.logout} onPress={logout}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
+
       <Text style={styles.header}>BeanScene</Text>
       <Text style={styles.sub}>Welcome! Choose an option:</Text>
 
@@ -26,13 +45,35 @@ export default function HomeScreen({ navigation }) {
       >
         <Text style={styles.buttonText}>View Cart</Text>
       </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("ViewAllOrders")}
+      >
+        <Text style={styles.buttonText}>View All Orders</Text>
+      </TouchableOpacity>
     </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-  header: { fontSize: 30, fontWeight: "bold", marginBottom: 10 },
+  container: { padding: 20, backgroundColor: "#fff" },
+  
+  logout: {
+    position: "absolute",
+    top: 40,
+    right: 20,
+    padding: 8,
+  },
+  logoutText: {
+    fontSize: 16,
+    color: "red",
+    fontWeight: "600",
+  },
+
+  header: { fontSize: 30, fontWeight: "bold", marginTop: 100, marginBottom: 10 },
   sub: { fontSize: 18, marginBottom: 30 },
   button: {
     backgroundColor: "#4e342e",
