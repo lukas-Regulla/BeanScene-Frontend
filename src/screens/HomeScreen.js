@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, StyleSheet,ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
@@ -27,16 +27,9 @@ export default function HomeScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Categories")}
-      >
-        <Text style={styles.buttonText}>View Categories</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
         onPress={() => navigation.navigate("FullMenu")}
       >
-        <Text style={styles.buttonText}>View Full Menu</Text>
+        <Text style={styles.buttonText}>Menu</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -59,7 +52,8 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, backgroundColor: "#fff" },
+  safe: { flex: 1, backgroundColor: "#faf4ef" },
+  container: { padding: 20, backgroundColor: "#faf4ef", flex: 1 },
   
   logout: {
     position: "absolute",

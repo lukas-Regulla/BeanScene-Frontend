@@ -17,7 +17,7 @@ const login = async () => {
       await AsyncStorage.setItem("token", res.data.token);
       await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
 
-      setLoggedIn(true);      // ← THIS IS WHAT WAS MISSING
+      setLoggedIn(true);  
       navigation.replace("Home");
     }
   } catch (err) {

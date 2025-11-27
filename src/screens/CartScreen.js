@@ -1,4 +1,5 @@
-import { useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../api/api";
@@ -7,6 +8,23 @@ import { CartContext } from "../context/CartContext";
 export default function CartScreen({ navigation }) {
   const { cart, clearCart } = useContext(CartContext);
   const [customerName, setCustomerName] = useState("");
+
+  // Pre-fill name from stored user (set at login)
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const raw = await AsyncStorage.getItem("user");
+        if (!raw) return;
+        const user = JSON.parse(raw);
+        // support several possible shapes
+        const name = user?.name || (user?.firstName && user?.lastName && `${user.firstName} ${user.lastName}`) || user?.first || "";
+        if (name) setCustomerName(name);
+      } catch (err) {
+        console.log("Error loading user for cart prefill:", err);
+      }
+    };
+    loadUser();
+  }, []);
 
   const total = cart.reduce((sum, d) => sum + Number(d.price), 0);
 
@@ -54,6 +72,7 @@ export default function CartScreen({ navigation }) {
 
           <TextInput
             placeholder="Enter your name"
+            placeholderTextColor="#8d6e63"
             style={styles.input}
             value={customerName}
             onChangeText={setCustomerName}
@@ -99,6 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     fontSize: 18,
+    color: "#4e342e",
   },
 
   button: {
