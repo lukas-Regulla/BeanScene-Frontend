@@ -1,9 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../api/api";
 import { CartContext } from "../context/CartContext";
+import { Colors, ComponentStyles, Spacing, Typography, mergeStyles } from "../styles/Themes";
 
 export default function CartScreen({ navigation }) {
   const { cart, clearCart } = useContext(CartContext);
@@ -47,39 +48,38 @@ export default function CartScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
-    <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+    <SafeAreaView style={ComponentStyles.safeContainer}>
+    <ScrollView contentContainerStyle={ComponentStyles.scrollContainer} keyboardShouldPersistTaps="handled">
       {/* Back Button */}
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.back}>← Back</Text>
+        <Text style={ComponentStyles.backButton}>← Back</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Your Cart</Text>
+      <Text style={Typography.largeTitle}>Your Cart</Text>
 
       {/* Cart Empty */}
       {cart.length === 0 ? (
-        <Text style={styles.empty}>Your cart is empty.</Text>
+        <Text style={ComponentStyles.emptyText}>Your cart is empty.</Text>
       ) : (
         <>
           {cart.map((item, index) => (
-            <View key={index} style={styles.item}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemPrice}>${item.price}</Text>
+            <View key={index} style={mergeStyles(ComponentStyles.row, { paddingVertical: Spacing.md, borderBottomColor: Colors.border, borderBottomWidth: 1 })}>
+              <Text style={Typography.body}>{item.name}</Text>
+              <Text style={mergeStyles(Typography.body, { fontWeight: "bold" })}>${item.price}</Text>
             </View>
           ))}
 
-          <Text style={styles.total}>Total: ${total}</Text>
+          <Text style={mergeStyles(Typography.title, { marginTop: Spacing.xl, fontSize: 22, fontWeight: "bold" })}>Total: ${total}</Text>
 
           <TextInput
-            placeholder="Enter your name"
-            placeholderTextColor="#8d6e63"
-            style={styles.input}
-            value={customerName}
+            placeholder="Enter name"
+            placeholderTextColor={Colors.textMuted}
+            style={ComponentStyles.input}
             onChangeText={setCustomerName}
           />
 
-          <TouchableOpacity style={styles.button} onPress={placeOrder}>
-            <Text style={styles.buttonText}>Place Order</Text>
+          <TouchableOpacity style={ComponentStyles.button} onPress={placeOrder}>
+            <Text style={ComponentStyles.buttonText}>Place Order</Text>
           </TouchableOpacity>
         </>
       )}
@@ -87,50 +87,3 @@ export default function CartScreen({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#faf4ef" },
-  container: { padding: 15 },
-
-  back: { fontSize: 18, color: "#4e342e", marginBottom: 10 },
-
-  title: { fontSize: 32, fontWeight: "bold", color: "#3e2723", marginBottom: 20 },
-
-  empty: { fontSize: 18, color: "#6d4c41" },
-
-  item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    borderBottomColor: "#d7ccc8",
-    borderBottomWidth: 1,
-  },
-
-  itemName: { fontSize: 18, color: "#4e342e" },
-
-  itemPrice: { fontSize: 18, fontWeight: "bold", color: "#3e2723" },
-
-  total: { marginTop: 20, fontSize: 22, fontWeight: "bold", color: "#4e342e" },
-
-  input: {
-    marginTop: 20,
-    padding: 12,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    fontSize: 18,
-    color: "#4e342e",
-  },
-
-  button: {
-    marginTop: 25,
-    backgroundColor: "#6d4c41",
-    padding: 16,
-    borderRadius: 10,
-  },
-
-  buttonText: {
-    textAlign: "center",
-    color: "white",
-    fontSize: 20,
-  },
-});

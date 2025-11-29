@@ -1,10 +1,12 @@
 import { StyleSheet } from "react-native";
 
+
 // Color palette
 export const Colors = {
   primary: "#4e342e",
   primaryDark: "#3e2723",
   primaryLight: "#6d4c41",
+  red: "#d32f2f",
   accent: "#d7ccc8",
   accentDark: "#8d6e63",
   accentLight: "#efebe9",
@@ -126,7 +128,7 @@ export const ComponentStyles = StyleSheet.create({
     backgroundColor: Colors.primaryLight,
     padding: Spacing.md,
     borderRadius: 10,
-    marginTop: Spacing.xxl,
+    marginTop: Spacing.lg,
     alignItems: "center",
   },
   buttonText: {
@@ -158,6 +160,11 @@ export const ComponentStyles = StyleSheet.create({
   backButton: {
     fontSize: 18,
     color: Colors.text,
+    paddingVertical: Spacing.sm,
+  },
+  logoutButton: {
+    fontSize: 18,
+    color: Colors.red,
     paddingVertical: Spacing.sm,
   },
 

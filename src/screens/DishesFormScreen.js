@@ -46,7 +46,7 @@ const pickImage = async () => {
                     style: "destructive",
                     onPress: async () => {
                         try {
-                            await api.delete(`/dishes/${editing._id}`);
+                            await api.delete(`/dishes/delete/${editing.id}`);
                             Alert.alert("Deleted", "Dish deleted successfully");
                             navigation.goBack();
                         } catch (err) {
@@ -77,7 +77,7 @@ const pickImage = async () => {
 
     try {
       if (editing) {
-        await api.put(`/dishes/${editing._id}`, dishData);
+        await api.put(`/dishes/update/${editing.id}`, dishData);
         Alert.alert("Updated", "Dish updated successfully");
       } else {
         await api.post("/dishes", dishData);
