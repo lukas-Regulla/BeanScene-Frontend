@@ -4,15 +4,15 @@ import {
   Image,
   PanResponder,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { api, API_URL } from "../api/api";
 import { CartContext } from "../context/CartContext";
+import { Colors, ComponentStyles, Typography } from "../styles/Themes";
 
 export default function FullMenuScreen({ navigation }) {
   const insets = useSafeAreaInsets();
@@ -94,52 +94,51 @@ export default function FullMenuScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={ComponentStyles.safeContainer}>
       <ScrollView
         ref={scrollRef}
-        contentContainerStyle={styles.container}
+        contentContainerStyle={ComponentStyles.scrollContainer}
         showsVerticalScrollIndicator={false}
         {...panResponder.panHandlers}
       >
         {/* Cart button (top right) */}
-        <View style={styles.topRow}>
+        <View style={ComponentStyles.rowBetween}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={styles.back}>← Back</Text>
+            <Text style={ComponentStyles.backButton}>← Back</Text>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-            <Text style={styles.cartButton}>🛒 {cart.length}</Text>
+            <Text style={{ fontSize: 20 }}>🛒 {cart.length}</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.header}> MENU</Text>
-
+        <Text style={Typography.largeTitle}>MENU</Text>
         {/* Category buttons */}
-        <View style={styles.catRow}>
+        <View style={{ flexDirection: "row", marginBottom: 14 }}>
           {categories.map(cat => (
             <TouchableOpacity
               key={cat}
-              style={styles.catButton}
+              style={ComponentStyles.categoryButton}
               onPress={() => scrollToCat(cat)}
             >
-              <Text style={styles.catText}>{cat.toUpperCase()}</Text>
+              <Text style={ComponentStyles.categoryButtonText}>{cat.toUpperCase()}</Text>
             </TouchableOpacity>
           ))}
         </View>
 
         {/* Search bar */}
-        <View style={styles.searchRow}>
+        <View style={ComponentStyles.row}>
           <TextInput
             placeholder="Search menu by name or description..."
-            placeholderTextColor="#8d6e63"
-            style={styles.searchInput}
+            placeholderTextColor={Colors.textMuted}
+            style={ComponentStyles.searchInput}
             value={query}
             onChangeText={setQuery}
             returnKeyType="search"
           />
           {query.length > 0 && (
-            <TouchableOpacity onPress={() => setQuery("")} style={styles.clearBtn}>
-              <Text style={styles.clearText}>Clear</Text>
+            <TouchableOpacity onPress={() => setQuery("")} style={ComponentStyles.clearButton}>
+              <Text style={ComponentStyles.clearButtonText}>Clear</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -149,33 +148,33 @@ export default function FullMenuScreen({ navigation }) {
           <View
             key={section.name}
             onLayout={(e) => {
-              sectionRefs.current[section.name] = e.nativeEvent.layout.y;
+              sectionRefs.current[section.name] = e.nativeEvent.layout.y; 
             }}
           >
-            <Text style={styles.sectionHeader}>
+            <Text style={Typography.sectionHeader}>
               {section.name.toUpperCase()}
             </Text>
 
             {section.items.map(dish => (
               <TouchableOpacity
                 key={dish.id}
-                style={styles.card}
+                style={ComponentStyles.card}
                 onPress={() => navigation.navigate("DishDetails", { dish })}
               >
                 <Image
                   source={{ uri: `${API_URL}/static/${dish.file}` }}
-                  style={styles.image}
+                  style={ComponentStyles.image}
                 />
 
-                <View style={styles.info}>
-                  <Text style={styles.title}>{dish.name}</Text>
-                  <Text style={styles.price}>${dish.price}</Text>
+                <View style={ComponentStyles.info}>
+                  <Text style={Typography.title}>{dish.name}</Text>
+                  <Text style={ComponentStyles.priceText}>${dish.price}</Text>
                 </View>
               </TouchableOpacity>
             ))}
 
             {section.items.length === 0 && (
-              <Text style={styles.empty}>No items in this category</Text>
+              <Text style={ComponentStyles.emptyText}>No items in this category</Text>
             )}
           </View>
         ))}
@@ -183,13 +182,13 @@ export default function FullMenuScreen({ navigation }) {
 
       {/* overlay when mini cart open */}
       {cartVisible && (
-        <TouchableOpacity style={styles.overlay} onPress={closeMiniCart} />
+        <TouchableOpacity style={ComponentStyles.overlay} onPress={closeMiniCart} />
       )}
 
       {/* Slide-out mini cart */}
       <Animated.View
         style={[
-          styles.miniCart,
+          ComponentStyles.miniCart,
           {
             paddingTop: insets.top,
             paddingBottom: insets.bottom,
@@ -197,137 +196,137 @@ export default function FullMenuScreen({ navigation }) {
           },
         ]}
       >
-        <Text style={styles.cartTitle}>Your Cart</Text>
+        <Text style={ComponentStyles.miniCartTitle}>Your Cart</Text>
 
         {cart.length === 0 ? (
-          <Text style={styles.empty}>Cart is empty</Text>
+          <Text style={ComponentStyles.emptyText}>Cart is empty</Text>
         ) : (
           cart.map((item, i) => (
-            <Text key={i} style={styles.cartItem}>
+            <Text key={i} style={ComponentStyles.miniCartItem}>
               • {item.name} - ${item.price}
             </Text>
           ))
         )}
 
         <TouchableOpacity onPress={closeMiniCart}>
-          <Text style={styles.closeBtn}>Close</Text>
+          <Text style={ComponentStyles.cartCloseButton}>Close</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-          <Text style={styles.closeBtn}>View Cart</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Cart") }>
+          <Text style={ComponentStyles.cartCloseButton}>View Cart</Text>
         </TouchableOpacity>
       </Animated.View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#faf4ef" },
-  container: { padding: 15, paddingBottom: 60 },
+// const styles = StyleSheet.create({
+//   safe: { flex: 1,justifyContent: "center",alignItems: "center", backgroundColor: "#faf4ef" },
+//   container: { padding: 15, paddingBottom: 60 },
 
-  topRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-  cartButton: { fontSize: 20 },
+//   topRow: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     marginBottom: 10,
+//   },
+//   cartButton: { fontSize: 20 },
 
-  back: { fontSize: 18, color: "#4e342e" },
+//   back: { fontSize: 18, color: "#4e342e" },
 
-  header: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#3e2723",
-  },
+//   header: {
+//     fontSize: 32,
+//     fontWeight: "bold",
+//     marginBottom: 20,
+//     color: "#3e2723",
+//   },
 
-  catRow: {
-    flexDirection: "row",
-    marginBottom: 20,
-    gap: 10,
-  },
+//   catRow: {
+//     flexDirection: "row",
+//     marginBottom: 20,
+//     gap: 10,
+//   },
 
-  catButton: {
-    backgroundColor: "#d7ccc8",
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 18,
-  },
+//   catButton: {
+//     backgroundColor: "#d7ccc8",
+//     paddingHorizontal: 14,
+//     paddingVertical: 6,
+//     borderRadius: 18,
+//   },
 
-  catText: { color: "#4e342e", fontWeight: "bold" },
+//   catText: { color: "#4e342e", fontWeight: "bold" },
 
-  sectionHeader: {
-    fontSize: 26,
-    fontWeight: "bold",
-    marginVertical: 15,
-    color: "#5d4037",
-  },
+//   sectionHeader: {
+//     fontSize: 26,
+//     fontWeight: "bold",
+//     marginVertical: 15,
+//     color: "#5d4037",
+//   },
 
-  card: {
-    flexDirection: "row",
-    backgroundColor: "white",
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-    elevation: 3,
-  },
+//   card: {
+//     flexDirection: "row",
+//     backgroundColor: "white",
+//     borderRadius: 12,
+//     padding: 12,
+//     marginBottom: 12,
+//     elevation: 3,
+//   },
 
-  image: { width: 90, height: 90, borderRadius: 10 },
+//   image: { width: 90, height: 90, borderRadius: 10 },
 
-  info: { marginLeft: 12, justifyContent: "center" },
+//   info: { marginLeft: 12, justifyContent: "center" },
 
-  title: { fontSize: 20, fontWeight: "bold", color: "#4e342e" },
+//   title: { fontSize: 20, fontWeight: "bold", color: "#4e342e" },
 
-  price: { marginTop: 6, fontSize: 16, color: "#6d4c41" },
+//   price: { marginTop: 6, fontSize: 16, color: "#6d4c41" },
 
-  empty: { fontSize: 16, color: "#8d6e63" },
+//   empty: { fontSize: 16, color: "#8d6e63" },
 
-  miniCart: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    right: 0,
-    width: 260,
-    backgroundColor: "white",
-    padding: 15,
-    borderLeftWidth: 2,
-    borderLeftColor: "#ccc",
-  },
+//   miniCart: {
+//     position: "absolute",
+//     top: 0,
+//     bottom: 0,
+//     right: 0,
+//     width: 260,
+//     backgroundColor: "white",
+//     padding: 15,
+//     borderLeftWidth: 2,
+//     borderLeftColor: "#ccc",
+//   },
 
-  overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.2)",
-  },
+//   overlay: {
+//     position: "absolute",
+//     top: 0,
+//     left: 0,
+//     right: 0,
+//     bottom: 0,
+//     backgroundColor: "rgba(0,0,0,0.2)",
+//   },
 
-  searchRow: { flexDirection: "row", alignItems: "center", marginBottom: 12 },
-  searchInput: {
-    flex: 1,
-    backgroundColor: "#fff",
-    padding: 10,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#d7ccc8",
-  },
-  clearBtn: { marginLeft: 10 },
-  clearText: { color: "#4e342e", fontWeight: "600" },
+//   searchRow: { flexDirection: "row", alignItems: "center", marginBottom: 12 },
+//   searchInput: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     padding: 10,
+//     borderRadius: 8,
+//     borderWidth: 1,
+//     borderColor: "#d7ccc8",
+//   },
+//   clearBtn: { marginLeft: 10 },
+//   clearText: { color: "#4e342e", fontWeight: "600" },
 
-  cartTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 15,
-  },
+//   cartTitle: {
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     marginBottom: 15,
+//   },
 
-  cartItem: { fontSize: 16, marginBottom: 8 },
+//   cartItem: { fontSize: 16, marginBottom: 8 },
 
-  closeBtn: {
-    marginTop: 20,
-    backgroundColor: "#6d4c41",
-    color: "white",
-    padding: 10,
-    textAlign: "center",
-    borderRadius: 8,
-  },
-});
+//   closeBtn: {
+//     marginTop: 20,
+//     backgroundColor: "#6d4c41",
+//     color: "white",
+//     padding: 10,
+//     textAlign: "center",
+//     borderRadius: 8,
+//   },
+// });
