@@ -45,6 +45,12 @@ export default function HomeScreen({ navigation }) {
       >
         <Text style={styles.buttonText}>View All Orders</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("DishesForm")}
+      >
+        <Text style={styles.buttonText}>Add New Dish</Text>
+      </TouchableOpacity>
     </View>
     </ScrollView>
     </SafeAreaView>

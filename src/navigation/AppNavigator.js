@@ -3,12 +3,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useEffect, useState } from "react";
 
 import CartScreen from "../screens/CartScreen";
-import CategoriesScreen from "../screens/CategoriesScreen";
 import DishDetailsScreen from "../screens/DishDetailsScreen";
+import DishesFormScreen from "../screens/DishesFormScreen";
 import FullMenuScreen from "../screens/FullMenuScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
-import MenuScreen from "../screens/MenuScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import ViewAllOrdersScreen from "../screens/ViewAllOrdersScreen";
 
@@ -48,12 +47,12 @@ export default function AppNavigator() {
         {(props) => <HomeScreen {...props} />}
       </Stack.Screen>
 
-      <Stack.Screen name="Menu" component={MenuScreen} />
+
       <Stack.Screen name="FullMenu" component={FullMenuScreen} />
       <Stack.Screen name="DishDetails" component={DishDetailsScreen} />
       <Stack.Screen name="Cart" component={CartScreen} />
-      <Stack.Screen name="Categories" component={CategoriesScreen} />
       <Stack.Screen name="ViewAllOrders" component={ViewAllOrdersScreen} />
+      <Stack.Screen name="DishesForm" component={DishesFormScreen} />
     </Stack.Navigator>
   );
 }

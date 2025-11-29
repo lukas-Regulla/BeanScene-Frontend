@@ -19,6 +19,17 @@ export const Colors = {
   success: "#4caf50",
 };
 
+// Spacing
+export const Spacing = {
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 15,
+  xl: 20,
+  xxl: 25,
+  xxxl: 30,
+};
+
 // Typography
 export const Typography = {
   largeTitle: {
@@ -35,14 +46,21 @@ export const Typography = {
     fontSize: 20,
     fontWeight: "bold",
     color: Colors.text,
+    marginTop: Spacing.xl,
   },
   subtitle: {
     fontSize: 18,
     color: Colors.textLight,
+    marginTop: Spacing.sm,
+    interlineHeight: 22,
+    lineHeight: 24,
   },
   body: {
     fontSize: 16,
     color: Colors.text,
+    marginTop: Spacing.sm,
+    interlineHeight: 22,
+    lineHeight: 24,
   },
   bodyMuted: {
     fontSize: 16,
@@ -56,17 +74,13 @@ export const Typography = {
     fontSize: 14,
     color: Colors.textMuted,
   },
-};
-
-// Spacing
-export const Spacing = {
-  xs: 4,
-  sm: 8,
-  md: 12,
-  lg: 15,
-  xl: 20,
-  xxl: 25,
-  xxxl: 30,
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: Colors.text,
+    marginTop: Spacing.lg,
+    marginBottom: Spacing.sm,
+  },
 };
 
 // Reusable component styles
@@ -76,6 +90,7 @@ export const ComponentStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
+
   scrollContainer: {
     padding: Spacing.lg,
     paddingBottom: Spacing.xl,
@@ -127,11 +142,13 @@ export const ComponentStyles = StyleSheet.create({
     borderRadius: 18,
     flex: 1,
     alignItems: "center",
+    minWidth: 110,
     marginHorizontal: Spacing.sm,
   },
   categoryButtonText: {
     color: Colors.text,
     fontWeight: "bold",
+    flexShrink: 1,
   },
   smallButton: {
     paddingHorizontal: Spacing.md,
@@ -141,18 +158,21 @@ export const ComponentStyles = StyleSheet.create({
   backButton: {
     fontSize: 18,
     color: Colors.text,
+    paddingVertical: Spacing.sm,
   },
 
   // Text inputs
   input: {
     flex: 1,
     backgroundColor: Colors.white,
-    padding: Spacing.md,
+    padding: 10,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: Colors.border,
     fontSize: 16,
     color: Colors.text,
+    marginTop: Spacing.lg,
+    marginBottom: Spacing.md,
   },
   searchInput: {
     flex: 1,

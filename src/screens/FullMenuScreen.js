@@ -14,6 +14,7 @@ import { api, API_URL } from "../api/api";
 import { CartContext } from "../context/CartContext";
 import { Colors, ComponentStyles, Typography } from "../styles/Themes";
 
+
 export default function FullMenuScreen({ navigation }) {
   const insets = useSafeAreaInsets();
 
@@ -101,6 +102,7 @@ export default function FullMenuScreen({ navigation }) {
         showsVerticalScrollIndicator={false}
         {...panResponder.panHandlers}
       >
+        <Text style={Typography.largeTitle}>MENU</Text>
         {/* Cart button (top right) */}
         <View style={ComponentStyles.rowBetween}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -112,9 +114,9 @@ export default function FullMenuScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={Typography.largeTitle}>MENU</Text>
+        
         {/* Category buttons */}
-        <View style={{ flexDirection: "row", marginBottom: 14 }}>
+        <View style={{ flexDirection: "row", marginBottom: 12 }}>
           {categories.map(cat => (
             <TouchableOpacity
               key={cat}
