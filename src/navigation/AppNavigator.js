@@ -8,7 +8,9 @@ import DishesFormScreen from "../screens/DishesFormScreen";
 import FullMenuScreen from "../screens/FullMenuScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
+import ManageUsersScreen from "../screens/ManageUserScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import UserDetailsScreen from "../screens/UserDetailsScreen";
 import ViewAllOrdersScreen from "../screens/ViewAllOrdersScreen";
 
 const Stack = createStackNavigator();
@@ -53,6 +55,8 @@ export default function AppNavigator() {
       <Stack.Screen name="Cart" component={CartScreen} />
       <Stack.Screen name="ViewAllOrders" component={ViewAllOrdersScreen} />
       <Stack.Screen name="DishesForm" component={DishesFormScreen} />
+      <Stack.Screen name="ManageUsers" component={ManageUsersScreen} />
+      <Stack.Screen name="UserDetails" component={UserDetailsScreen} />
     </Stack.Navigator>
   );
 }

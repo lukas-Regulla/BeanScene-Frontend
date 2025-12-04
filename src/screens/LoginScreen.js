@@ -3,11 +3,16 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { api } from "../api/api";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
+
 
 export default function LoginScreen({ navigation, setLoggedIn}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+const {setRole, setUser} = useContext(AuthContext);
 
 const login = async () => {
   try {
@@ -16,6 +21,10 @@ const login = async () => {
     if (res.data.token) {
       await AsyncStorage.setItem("token", res.data.token);
       await AsyncStorage.setItem("user", JSON.stringify(res.data.user));
+      await AsyncStorage.setItem("role", res.data.user.user_type);
+
+      setUser(res.data.user);
+      setRole(res.data.user.user_type);
 
       setLoggedIn(true);  
       navigation.replace("Home");

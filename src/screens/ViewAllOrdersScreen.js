@@ -4,7 +4,7 @@ import { Swipeable } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { api } from "../api/api";
-import { Colors, ComponentStyles, Typography } from "../styles/Themes";
+import { Colors, ComponentStyles, Typography, Spacing } from "../styles/Themes";
 
 export default function ViewAllOrdersScreen({ navigation }) {
   const [orders, setOrders] = useState([]);
@@ -109,23 +109,21 @@ export default function ViewAllOrdersScreen({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={ComponentStyles.safeContainer}>
+    <SafeAreaView style={[ComponentStyles.safeContainer, { padding: Spacing.lg, paddingBottom: Spacing.xl }]}>
+
+      <Text style={[Typography.largeTitle]}>
+        All Orders
+      </Text>
 
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={[Typography.backButton, { margin: 15 }]}>← Back</Text>
       </TouchableOpacity>
-
-      <Text style={[Typography.title, { textAlign: "center", marginBottom: 20 }]}>
-        All Orders
-      </Text>
-
       <FlatList
         data={orders}
         keyExtractor={(o) => o.id}
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 40 }}
       />
-
     </SafeAreaView>
   );
 }

@@ -108,6 +108,17 @@ export const ComponentStyles = StyleSheet.create({
   section: {
     marginVertical: Spacing.xl,
   },
+  error: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  loginLink: {
+    textAlign: "center",
+    marginTop: 25,
+    fontSize: 16,
+    color: Colors.textLight,
+  },
 
   // Images
   image: {

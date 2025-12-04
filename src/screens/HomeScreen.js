@@ -2,14 +2,31 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ComponentStyles, Spacing, Typography, mergeStyles } from "../styles/Themes";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useEffect } from "react";
 
 
 export default function HomeScreen({ navigation }) {
 
+  const {role} = useContext(AuthContext);
+  const {setRole, setUser} = useContext(AuthContext);
+
+ 
+  if (role === null) {
+    return (
+      <SafeAreaView style={ComponentStyles.safeContainer}>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
   // LOGOUT FUNCTION
   const logout = async () => {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("user");
+    await AsyncStorage.removeItem("role");
+    setRole(null);
+    setUser(null);
     navigation.replace("Login");
   };
 
@@ -46,12 +63,22 @@ export default function HomeScreen({ navigation }) {
       >
         <Text style={ComponentStyles.buttonText}>View All Orders</Text>
       </TouchableOpacity>
+      {role === "admin" && (
       <TouchableOpacity
         style={ComponentStyles.button}
         onPress={() => navigation.navigate("DishesForm")}
       >
         <Text style={ComponentStyles.buttonText}>Add New Dish</Text>
       </TouchableOpacity>
+      )}
+      {role === "admin" && (
+      <TouchableOpacity
+        style={ComponentStyles.button}
+        onPress={() => navigation.navigate("ManageUsers")}
+      >
+        <Text style={ComponentStyles.buttonText}>Manage Users</Text>
+      </TouchableOpacity>
+      )}
     </View>
     </ScrollView>
     </SafeAreaView>

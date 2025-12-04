@@ -4,11 +4,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { API_URL } from "../api/api";
 import { CartContext } from "../context/CartContext";
 import { Colors, ComponentStyles, Spacing, Typography, mergeStyles } from "../styles/Themes";
+import { AuthContext } from "../context/AuthContext";
+
 
 export default function DishDetailsScreen({ route, navigation }) {
   const { addToCart } = useContext(CartContext);
+  const {role} = useContext(AuthContext);
 
   const { dish } = route.params;
+  
+    if (role !== "admin") {
+    return (
+      <SafeAreaView style={ComponentStyles.safeContainer}>
+        <Text style={Typography.largeTitle}>Access Denied</Text>
+        <Text style={Typography.bodyMuted}>Admins only.</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={ComponentStyles.safeContainer}>
@@ -63,9 +75,14 @@ export default function DishDetailsScreen({ route, navigation }) {
         <Text style={ComponentStyles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={ComponentStyles.button} onPress={() => navigation.navigate("DishesForm", { dish })} >
+      {/* edit dish Button */}
+      {role === "admin"  && (
+      <TouchableOpacity 
+      style={ComponentStyles.button} 
+      onPress={() => navigation.navigate("DishesForm", { dish })} >
         <Text style={ComponentStyles.buttonText}>Edit Dish</Text>
       </TouchableOpacity>
+      )}
     </ScrollView>
     </SafeAreaView>
   );

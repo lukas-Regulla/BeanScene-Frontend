@@ -210,125 +210,14 @@ export default function FullMenuScreen({ navigation }) {
           ))
         )}
 
-        <TouchableOpacity onPress={closeMiniCart}>
-          <Text style={ComponentStyles.cartCloseButton}>Close</Text>
-        </TouchableOpacity>
+        
         <TouchableOpacity onPress={() => navigation.navigate("Cart") }>
           <Text style={ComponentStyles.cartCloseButton}>View Cart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={closeMiniCart}>
+          <Text style={ComponentStyles.cartCloseButton}>Close</Text>
         </TouchableOpacity>
       </Animated.View>
     </SafeAreaView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   safe: { flex: 1,justifyContent: "center",alignItems: "center", backgroundColor: "#faf4ef" },
-//   container: { padding: 15, paddingBottom: 60 },
-
-//   topRow: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     marginBottom: 10,
-//   },
-//   cartButton: { fontSize: 20 },
-
-//   back: { fontSize: 18, color: "#4e342e" },
-
-//   header: {
-//     fontSize: 32,
-//     fontWeight: "bold",
-//     marginBottom: 20,
-//     color: "#3e2723",
-//   },
-
-//   catRow: {
-//     flexDirection: "row",
-//     marginBottom: 20,
-//     gap: 10,
-//   },
-
-//   catButton: {
-//     backgroundColor: "#d7ccc8",
-//     paddingHorizontal: 14,
-//     paddingVertical: 6,
-//     borderRadius: 18,
-//   },
-
-//   catText: { color: "#4e342e", fontWeight: "bold" },
-
-//   sectionHeader: {
-//     fontSize: 26,
-//     fontWeight: "bold",
-//     marginVertical: 15,
-//     color: "#5d4037",
-//   },
-
-//   card: {
-//     flexDirection: "row",
-//     backgroundColor: "white",
-//     borderRadius: 12,
-//     padding: 12,
-//     marginBottom: 12,
-//     elevation: 3,
-//   },
-
-//   image: { width: 90, height: 90, borderRadius: 10 },
-
-//   info: { marginLeft: 12, justifyContent: "center" },
-
-//   title: { fontSize: 20, fontWeight: "bold", color: "#4e342e" },
-
-//   price: { marginTop: 6, fontSize: 16, color: "#6d4c41" },
-
-//   empty: { fontSize: 16, color: "#8d6e63" },
-
-//   miniCart: {
-//     position: "absolute",
-//     top: 0,
-//     bottom: 0,
-//     right: 0,
-//     width: 260,
-//     backgroundColor: "white",
-//     padding: 15,
-//     borderLeftWidth: 2,
-//     borderLeftColor: "#ccc",
-//   },
-
-//   overlay: {
-//     position: "absolute",
-//     top: 0,
-//     left: 0,
-//     right: 0,
-//     bottom: 0,
-//     backgroundColor: "rgba(0,0,0,0.2)",
-//   },
-
-//   searchRow: { flexDirection: "row", alignItems: "center", marginBottom: 12 },
-//   searchInput: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     padding: 10,
-//     borderRadius: 8,
-//     borderWidth: 1,
-//     borderColor: "#d7ccc8",
-//   },
-//   clearBtn: { marginLeft: 10 },
-//   clearText: { color: "#4e342e", fontWeight: "600" },
-
-//   cartTitle: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginBottom: 15,
-//   },
-
-//   cartItem: { fontSize: 16, marginBottom: 8 },
-
-//   closeBtn: {
-//     marginTop: 20,
-//     backgroundColor: "#6d4c41",
-//     color: "white",
-//     padding: 10,
-//     textAlign: "center",
-//     borderRadius: 8,
-//   },
-// });
