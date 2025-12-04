@@ -12,15 +12,6 @@ export default function DishDetailsScreen({ route, navigation }) {
   const {role} = useContext(AuthContext);
 
   const { dish } = route.params;
-  
-    if (role !== "admin") {
-    return (
-      <SafeAreaView style={ComponentStyles.safeContainer}>
-        <Text style={Typography.largeTitle}>Access Denied</Text>
-        <Text style={Typography.bodyMuted}>Admins only.</Text>
-      </SafeAreaView>
-    );
-  }
 
   return (
     <SafeAreaView style={ComponentStyles.safeContainer}>

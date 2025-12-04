@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (dish) => {
     setCart(prev => [
       ...prev,
-      { ...dish, _cartId: Date.now().toString() }  // ← IMPORTANT
+      { ...dish, _cartId: Date.now().toString() }
     ]);
   };
 

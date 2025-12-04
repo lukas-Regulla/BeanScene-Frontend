@@ -1,3 +1,18 @@
+/**
+ * FullMenuScreen
+ * ---------------------------
+ * Displays the entire restaurant menu grouped by categories.
+ * Supports:
+ *  - Searching dishes
+ *  - Category jump scrolling
+ *  - Swipe gesture to open mini cart
+ *  - Viewing dish details
+ *  - Viewing cart contents
+ *  - Slide-out animated mini cart panel
+ *
+ * This screen loads all menu items from the backend API on mount.
+ */
+
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
@@ -24,6 +39,7 @@ export default function FullMenuScreen({ navigation }) {
   // Dish data
   const [dishes, setDishes] = useState([]);
 
+  // Load dishes on mount
   useEffect(() => {
     api.get("/dishes")
       .then(res => setDishes(res.data))
@@ -38,7 +54,6 @@ export default function FullMenuScreen({ navigation }) {
     items: dishes.filter(d => d.category?.toLowerCase() === cat.toLowerCase())
   }));
 
-  // Search state
   const [query, setQuery] = useState("");
 
   const filteredGrouped = useMemo(() => {
